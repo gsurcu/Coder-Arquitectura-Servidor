@@ -6,8 +6,15 @@ const ProductsDao = require('./Products.dao');
 const collection = "carritos";
 const Products = new ProductsDao();
 class CarritosDao extends MongoDBContainer {
+  static instance;
   constructor() {
-    super(collection, CarritoSchema)
+    super(collection, CarritoSchema);
+    if (!CarritosDao.instance) {
+      CarritosDao.instance = this;
+      return this
+    } else {
+      return CarritosDao.instance;
+    }
   }
 
   async createCart(id) {

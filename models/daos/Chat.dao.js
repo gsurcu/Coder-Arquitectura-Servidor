@@ -6,9 +6,15 @@ const { errorLog } = require('../../middlewares/logger')
 const collection = "chat"
 
 class ChatDao extends MongoDBContainer {
+  static instance;
   constructor() {
-    super(collection, ChatSchema)
-    this.chatNormalizado = []
+    super(collection, ChatSchema);
+    if (!ChatDao.instance) {
+      ChatDao.instance = this;
+      return this;
+    } else {
+      return ChatDao.instance;
+    }
   }
 
   async normalizar(){

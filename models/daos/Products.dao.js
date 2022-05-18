@@ -4,8 +4,15 @@ const ProductsSchema = require('../schemas/Product.schema');
 const collection = "productos";
 
 class ProductsDao extends MongoDBContainer {
+  static instance;
   constructor() {
-    super(collection, ProductsSchema)
+    super(collection, ProductsSchema);
+    if (!ProductsDao.instance) {
+      ProductsDao.instance = this;
+      return this;
+    } else {
+      return ProductsDao.instance;
+    }
   }
   async saveItem(item) {
     try {
